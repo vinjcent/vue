@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import TreeTable from 'vue-table-with-tree-grid'
 
 // 需要创建一个css文件,保存全局样式
 import './assets/css/global.css'
@@ -15,6 +16,8 @@ import './plugins/element.js'
 import http from './utils/request.js'
 
 Vue.prototype.$http = http
+
+Vue.component('tree-table', TreeTable)
 
 
 // 全局引入组件element-ui

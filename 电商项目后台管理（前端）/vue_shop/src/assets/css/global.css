@@ -24,3 +24,8 @@ html, body, #app {
 .el-pagination {
   margin-top: 15px;
 }
+
+/* 该选择器需要全局设置! */
+.el-cascader-menu {
+  height: 270px;
+}
