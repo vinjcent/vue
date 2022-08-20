@@ -114,10 +114,10 @@ export default {
                 ).then((res) => {
                     // 回调函数
                     // 登录失败提示原因
-                    if (res.data.code === 0)
+                    if (res.data.status === 0)
                         return this.$message.errorMessage(res.data.message)
                     // 登录成功提示
-                    if (res.data.code === 200)
+                    if (res.data.status === 200)
                         this.$message.successMessage(res.data.message)
                     // 1. 将登录成功之后的token,保存到客户端的sessionStorage中
                     //  1.1 项目总除了登陆之外的其它API接口,必须在登录之后才能访问

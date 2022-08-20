@@ -20,61 +20,63 @@
             </el-row>
 
             <!-- 表格 -->
-            <tree-table
-                :data="categoriesList"
-                :columns="columns"
-                :selection-type="false"
-                :expand-type="false"
-                show-index
-                index-text="#"
-                border
-                :show-row-hover="false"
-                children-prop="categories"
-                stripe
-                class="treetable"
-            >
-                <!-- 是否有效模板列 -->
-                <template slot="isActive" slot-scope="scope">
-                    <i
-                        class="el-icon-success"
-                        v-if="scope.row.actived === true"
-                        style="color: lightgreen"
-                    ></i>
-                    <i class="el-icon-error" v-else style="color: red"></i>
-                </template>
+            <div :v-if="isShow">
+                <tree-table
+                    :data="categoriesList"
+                    :columns="columns"
+                    :selection-type="false"
+                    :expand-type="false"
+                    show-index
+                    index-text="#"
+                    border
+                    :show-row-hover="false"
+                    children-prop="categories"
+                    stripe
+                    class="treetable"
+                >
+                    <!-- 是否有效模板列 -->
+                    <template slot="isActive" slot-scope="scope">
+                        <i
+                            class="el-icon-success"
+                            v-if="scope.row.actived === true"
+                            style="color: lightgreen"
+                        ></i>
+                        <i class="el-icon-error" v-else style="color: red"></i>
+                    </template>
 
-                <!-- 等级分类模板列 -->
-                <template slot="level" slot-scope="scope">
-                    <el-tag v-if="scope.row.level === 1" size="mini"
-                        >一级</el-tag
-                    >
-                    <el-tag
-                        v-else-if="scope.row.level === 2"
-                        type="success"
-                        size="mini"
-                        >二级</el-tag
-                    >
-                    <el-tag v-else type="warning" size="mini">三级</el-tag>
-                </template>
+                    <!-- 等级分类模板列 -->
+                    <template slot="level" slot-scope="scope">
+                        <el-tag v-if="scope.row.level === 1" size="mini"
+                            >一级</el-tag
+                        >
+                        <el-tag
+                            v-else-if="scope.row.level === 2"
+                            type="success"
+                            size="mini"
+                            >二级</el-tag
+                        >
+                        <el-tag v-else type="warning" size="mini">三级</el-tag>
+                    </template>
 
-                <!-- 操作模板列 -->
-                <template slot="operation" slot-scope="scope">
-                    <el-button
-                        @click="showEditDialog(scope.row)"
-                        type="primary"
-                        icon="el-icon-edit"
-                        size="mini"
-                        >编 辑</el-button
-                    >
-                    <el-button
-                        @click="deleteCate(scope.row.id)"
-                        type="danger"
-                        icon="el-icon-delete"
-                        size="mini"
-                        >删 除</el-button
-                    >
-                </template>
-            </tree-table>
+                    <!-- 操作模板列 -->
+                    <template slot="operation" slot-scope="scope">
+                        <el-button
+                            @click="showEditDialog(scope.row)"
+                            type="primary"
+                            icon="el-icon-edit"
+                            size="mini"
+                            >编 辑</el-button
+                        >
+                        <el-button
+                            @click="deleteCate(scope.row.id)"
+                            type="danger"
+                            icon="el-icon-delete"
+                            size="mini"
+                            >删 除</el-button
+                        >
+                    </template>
+                </tree-table>
+            </div>
 
             <!-- 分页区域 -->
             <el-pagination
@@ -220,6 +222,8 @@ export default {
         }
 
         return {
+            // 解决异步刷新问题
+            isShow: false,
             // 查询条件
             queryInfo: {
                 level: 1,
@@ -354,12 +358,14 @@ export default {
                 params,
                 headers: this.$http.requestHeaders()
             })
-            if (res.code !== 200)
+            if (res.status !== 200)
                 return this.$message.errorMessage('获取商品分类信息失败!')
             // 把数据列表赋值给categoriesList
             this.categoriesList = res.data
             // 为长度赋值
             this.total = res.total
+            // 显示数据
+            this.isShow = true
         },
         // 监听pageSize改变
         handleSizeChange(newPageSize) {
@@ -383,7 +389,7 @@ export default {
             const { data: res } = await req.get('/getSecCategories', {
                 params: { level: 2 }
             })
-            if (res.code !== 200)
+            if (res.status !== 200)
                 return this.$message.errorMessage('获取商品分类信息失败!')
             // console.log(res.data)
             this.parentCatesList = res.data
@@ -420,7 +426,7 @@ export default {
                     '/addCategory',
                     this.addCateForm
                 )
-                if (res.code !== 200)
+                if (res.status !== 200)
                     return this.$message.errorMessage('添加分类失败!')
                 this.$message.successMessage('添加分类成功!')
                 // 重新获取数据
@@ -456,23 +462,24 @@ export default {
                     this.editFormSelectedKeys = [category.pid]
                 // 如果是三级权限,那么父级数组就是一级权限的id与二级权限的id组合成的数组
                 else if (category.level === 3) {
-                    for (let i = 0; i < this.parentCatesList.length; i++) {
-                        for (
-                            let j = 0;
-                            j < this.parentCatesList[i].categories.length;
-                            j++
-                        ) {
-                            if (
-                                this.parentCatesList[i].categories[j].id ===
-                                category.pid
+                    if (this.parentCatesList)
+                        for (let i = 0; i < this.parentCatesList.length; i++) {
+                            for (
+                                let j = 0;
+                                j < this.parentCatesList[i].categories.length;
+                                j++
                             ) {
-                                this.editFormSelectedKeys = [
-                                    this.parentCatesList[i].id,
+                                if (
+                                    this.parentCatesList[i].categories[j].id ===
                                     category.pid
-                                ]
+                                ) {
+                                    this.editFormSelectedKeys = [
+                                        this.parentCatesList[i].id,
+                                        category.pid
+                                    ]
+                                }
                             }
                         }
-                    }
                 }
                 // 展示编辑对话框
                 this.editCateDialogVisible = true
@@ -511,7 +518,7 @@ export default {
                     this.editCateForm
                 )
 
-                if (res.code !== 200) {
+                if (res.status !== 200) {
                     return this.$message.error('更新分类失败!')
                 }
                 this.$message.successMessage('更新分类成功！')
@@ -531,17 +538,17 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }
-            ).catch((err) => {})
+            ).catch(err => err)
             // console.log(confirmResult)
             if (confirmResult !== 'confirm') {
-                return this.$message.info('已取消删除!')
+                return this.$message.infoMessage('已取消删除!')
             }
 
             const { data: res } = await this.$http.delete(
                 '/deleteCategory/' + id
             )
-            if (res.code !== 200) {
-                return this.$message.error('删除分类失败!')
+            if (res.status !== 200) {
+                return this.$message.errorMessage('删除分类失败!')
             }
             this.$message.successMessage('删除分类成功！')
             // 重新获取数据

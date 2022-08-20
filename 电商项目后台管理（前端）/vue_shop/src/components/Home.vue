@@ -118,7 +118,7 @@ export default {
             req.get('/menus', {
                 headers: req.requestHeaders()
             }).then((res) => {
-                if (res.status !== 200 || res.data.code !== 200)
+                if (res.status !== 200 || res.data.status !== 200)
                     return this.$message.errorMessage('获取信息失败')
                 this.menuList = res.data.data
             })

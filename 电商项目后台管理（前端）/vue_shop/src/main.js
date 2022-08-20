@@ -7,13 +7,16 @@ import TreeTable from 'vue-table-with-tree-grid'
 
 // 需要创建一个css文件,保存全局样式
 import './assets/css/global.css'
+// 引入防抖、节流函数
+import { debounce, throttle } from './utils/commons.js'
+
 
 
 // 局部引入element-ui
 import './plugins/element.js'
 
 // 请求单独处理
-import http from './utils/request.js'
+import http from './utils/server.js'
 
 Vue.prototype.$http = http
 

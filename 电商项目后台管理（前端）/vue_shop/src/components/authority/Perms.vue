@@ -49,7 +49,7 @@ export default {
             req.get('/getAllPerms', {
                 headers: req.requestHeaders()
             }).then((res) => {
-                if (res.status !== 200 || res.data.code !== 200) {
+                if (res.status !== 200 || res.data.status !== 200) {
                     return this.$message.errorMessage('获取权限信息失败!')
                 }
                 this.permsList = res.data.data

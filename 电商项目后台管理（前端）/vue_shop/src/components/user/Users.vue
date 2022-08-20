@@ -389,7 +389,7 @@ export default {
                 params,
                 headers: req.requestHeaders()
             }).then((res) => {
-                if (res.status !== 200 || res.data.code !== 200)
+                if (res.status !== 200 || res.data.status !== 200)
                     return this.$message.errorMessaged('获取信息失败!')
                 this.userList = res.data.data
                 this.total = res.data.total
@@ -414,7 +414,7 @@ export default {
             req.put(`/updateUser/${userInfo.id}/state/${userInfo.state}`, {
                 headers: req.requestHeaders()
             }).then((res) => {
-                if (res.status !== 200 || res.data.code !== 200) {
+                if (res.status !== 200 || res.data.status !== 200) {
                     userInfo.state = userInfo.state == 1 ? 0 : 1
                     return this.$message.errorMessage('更新用户状态失败!')
                 }
@@ -432,7 +432,7 @@ export default {
                 // 发起添加用户的网络请求
                 let req = this.$http
                 req.post('/addUser', this.User).then((res) => {
-                    if (res.status !== 200 || res.data.code !== 200) {
+                    if (res.status !== 200 || res.data.status !== 200) {
                         return this.$message.errorMessage('添加用户失败!')
                     }
                     // 用户添加成功
@@ -456,7 +456,7 @@ export default {
                 // 发起修改用户的网络请求
                 let req = this.$http
                 req.put('/updateUser', this.editUser).then((res) => {
-                    if (res.status !== 200 || res.data.code !== 200) {
+                    if (res.status !== 200 || res.data.status !== 200) {
                         return this.$message.errorMessage('修改用户失败!')
                     }
                     // 用户修改成功
@@ -479,11 +479,11 @@ export default {
                 .then(() => {
                     let req = this.$http
                     req.delete('/deleteUser/' + id).then((res) => {
-                        if (res.status !== 200 || res.data.code !== 200)
+                        if (res.status !== 200 || res.data.status !== 200)
                             return this.$message.errorMessage('删除用户失败!')
                         this.$message.successMessage('删除用户成功!')
                         // 当如当前记录数-1之后能被页大小整除,需要跳转到前一页
-                        if((this.total - 1) % this.queryInfo.pageSize == 0) {
+                        if ((this.total - 1) % this.queryInfo.pageSize == 0) {
                             this.queryInfo.pageNum = this.queryInfo.pageNum - 1
                         }
                         // 重新获取用户列表
@@ -504,7 +504,7 @@ export default {
             // 再展示对话框之前,获取所有角色列表
             let req = this.$http
             req.get('/getAllRoles').then((res) => {
-                if (res.status !== 200 || res.data.code !== 200)
+                if (res.status !== 200 || res.data.status !== 200)
                     return this.$message.errorMessage('获取角色列表失败!')
                 // 为rolesList列表添加数据
                 // console.log(res.data.data)
@@ -529,7 +529,7 @@ export default {
                 `users/${this.userInfo.id}/role`,
                 req.requestData(this.selectedRoleId, false)
             ).then((res) => {
-                if (res.status !== 200 || res.data.code !== 200)
+                if (res.status !== 200 || res.data.status !== 200)
                     return this.$message.errorMessage('为用户分配角色失败!')
                 this.$message.successMessage('为用户分配角色成功!')
                 // 重新获取用户列表

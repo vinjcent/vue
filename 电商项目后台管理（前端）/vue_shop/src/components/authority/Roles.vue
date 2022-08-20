@@ -285,7 +285,7 @@ export default {
             let req = this.$http
             req.get('/getRolesAllInfo')
                 .then((res) => {
-                    if (res.status !== 200 || res.data.code !== 200) {
+                    if (res.status !== 200 || res.data.status !== 200) {
                         return this.$message.errorMessage('获取角色信息失败!')
                     }
                     // 绑定数据
@@ -311,7 +311,7 @@ export default {
                 let req = this.$http
                 req.post('/addRole', this.role)
                     .then((res) => {
-                        if (res.status !== 200 || res.data.code !== 200)
+                        if (res.status !== 200 || res.data.status !== 200)
                             return this.$message.errorMessage('添加角色失败!')
                         this.$message.successMessage('添加角色成功!')
                         // 重新获取角色列表
@@ -328,7 +328,7 @@ export default {
                 let req = this.$http
                 req.put('/updateRole', this.editRole)
                     .then((res) => {
-                        if (res.status !== 200 || res.data.code !== 200)
+                        if (res.status !== 200 || res.data.status !== 200)
                             return this.$message.errorMessage(
                                 '修改角色信息失败!'
                             )
@@ -350,7 +350,7 @@ export default {
                 .then(() => {
                     let req = this.$http
                     req.delete('/deleteRole/' + id).then((res) => {
-                        if (res.status !== 200 || res.data.code !== 200)
+                        if (res.status !== 200 || res.data.status !== 200)
                             return this.$message.errorMessage('删除角色失败!')
                         this.$message.successMessage('删除角色成功!')
                         // 从新获取角色列表
@@ -373,7 +373,7 @@ export default {
                     let req = this.$http
                     req.delete(`/roles/${role.id}/perms/${permId}`).then(
                         (res) => {
-                            if (res.status !== 200 || res.data.code !== 200)
+                            if (res.status !== 200 || res.data.status !== 200)
                                 return this.$message.errorMessage(
                                     '删除权限失败!'
                                 )
@@ -395,7 +395,7 @@ export default {
             // 获取所有关联权限的数据
             req.get('/getAllRelatedPerms')
                 .then((res) => {
-                    if (res.status !== 200 || res.data.code !== 200) {
+                    if (res.status !== 200 || res.data.status !== 200) {
                         return this.$message.errorMessage('获取角色信息失败!')
                     }
                     // 绑定数据
@@ -437,7 +437,7 @@ export default {
             let req = this.$http
             req.post(`roles/${this.roleId}/perms`, req.requestData(keys, false))
                 .then((res) => {
-                    if (res.status !== 200 || res.data.code !== 200) {
+                    if (res.status !== 200 || res.data.status !== 200) {
                         return this.$message.errorMessage('添加角色权限失败!')
                     }
                     // 重新获取角色列表
