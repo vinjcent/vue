@@ -227,9 +227,6 @@
     </div>
 </template>
 
-
-
-
 <script>
 export default {
     data() {
@@ -433,7 +430,7 @@ export default {
             ]
 
             // const idStr = keys.join(',')     // 以","拼接数组转为字符串
-            console.log(keys)
+            // console.log(keys)
             let req = this.$http
             req.post(`roles/${this.roleId}/perms`, req.requestData(keys, false))
                 .then((res) => {

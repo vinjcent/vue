@@ -386,8 +386,7 @@ export default {
             let req = this.$http
             req.get(url, {
                 // 请求参数
-                params,
-                headers: req.requestHeaders()
+                params
             }).then((res) => {
                 if (res.status !== 200 || res.data.status !== 200)
                     return this.$message.errorMessaged('获取信息失败!')
@@ -411,9 +410,10 @@ export default {
         userStateChanged(userInfo) {
             // console.log(userInfo)
             let req = this.$http
-            req.put(`/updateUser/${userInfo.id}/state/${userInfo.state}`, {
-                headers: req.requestHeaders()
-            }).then((res) => {
+            req.put(
+                `/updateUser/${userInfo.id}/state/${userInfo.state}`,
+                {}
+            ).then((res) => {
                 if (res.status !== 200 || res.data.status !== 200) {
                     userInfo.state = userInfo.state == 1 ? 0 : 1
                     return this.$message.errorMessage('更新用户状态失败!')
@@ -541,7 +541,6 @@ export default {
     }
 }
 </script>
-
 
 <style lang="less" scoped>
 </style>

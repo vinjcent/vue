@@ -8,6 +8,9 @@ import Perms from '../components/authority/Perms.vue'
 import Roles from '../components/authority/Roles.vue'
 import Categories from '../components/goods/Categories.vue'
 import Params from '../components/goods/Params.vue'
+import Commodities from '../components/goods/Commodities.vue'
+import AddCommo from '../components/goods/AddCommo.vue'
+
 
 
 Vue.use(Router)
@@ -30,6 +33,9 @@ const router = new Router({
         { path: '/roles', component: Roles },
         { path: '/categories', component: Categories },
         { path: '/params', component: Params },
+        { path: '/commodities', component: Commodities },
+        { path: '/commodities/add', component: AddCommo },
+
 
 
 

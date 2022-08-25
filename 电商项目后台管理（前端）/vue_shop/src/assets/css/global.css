@@ -1,5 +1,7 @@
 /* 全局样式 */
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -28,4 +30,20 @@ html, body, #app {
 /* 该选择器需要全局设置! */
 .el-cascader-menu {
   height: 270px;
+}
+
+.el-steps {
+  margin: 17px 0;
+}
+
+.el-step__title {
+  font-size: 13px;
+}
+
+.el-tabs {
+  margin-top: 17px 0;
+}
+
+.ql-editor {
+  min-height: 300px;
 }

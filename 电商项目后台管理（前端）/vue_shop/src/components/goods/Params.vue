@@ -355,7 +355,7 @@ export default {
                 // 文本框中输入的值
                 this.$set(item, 'inputValue', '')
             })
-            console.log(res.data)
+            // console.log(res.data)
         },
         // 监听添加对话框的关闭事件
         addDialogClosed() {

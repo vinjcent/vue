@@ -31,7 +31,6 @@
     </div>
 </template>
 
-
 <script>
 export default {
     data() {
@@ -53,7 +52,7 @@ export default {
                     return this.$message.errorMessage('获取权限信息失败!')
                 }
                 this.permsList = res.data.data
-                console.log(res)
+                // console.log(res)
             })
         }
     }
